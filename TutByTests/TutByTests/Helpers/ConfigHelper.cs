@@ -10,8 +10,8 @@ namespace Training.Helpers
             {
                 if (config == null)
                 {
-                    var config = new ConfigurationBuilder()
-                    .AddJsonFile("appSettings.json")
+                    config = new ConfigurationBuilder()
+                    .AddJsonFile("appSettings.json", true)
                     .Build();
                 }
 
