@@ -8,17 +8,18 @@ namespace Training.Helpers
 {
     public static class WaitHelper
     {
-        private static readonly IWebDriver driver = DriverGenerator.GetInstance();
+        private static readonly IWebDriver Driver = DriverGenerator.GetInstance();
 
-        public static void SetExplicitWait(By by, int timeout = 2)
+
+        public static void WaitElementExists(By by, int timeout = 2)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeout));
             wait.Until(ExpectedConditions.ElementExists(by));
         }
 
-        public static void SetPresenceOfAllElementsLocatedWait(By by, int timeout = 2)
+        public static void WaitForPresenceOfAllElementsLocated(By by, int timeout = 2)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeout));
             wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
         }
     }

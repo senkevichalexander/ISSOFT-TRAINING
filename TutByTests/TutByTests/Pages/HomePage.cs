@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using OpenQA.Selenium;
-using SeleniumExtras.WaitHelpers;
-using System.Collections.Generic;
-using System.IO;
+﻿using OpenQA.Selenium;
 using Training.Helpers;
-
+using TutByTests.Helpers;
 
 namespace Training.Pages
 {
@@ -24,20 +20,21 @@ namespace Training.Pages
         {
             IsPageOpened = false;
             Driver.Navigate().GoToUrl(homePage);
-            WaitHelper.SetExplicitWait(headerLogoTutBy);
+            WaitHelper.WaitElementExists(headerLogoTutBy);
             IsPageOpened = true;
         }
 
         public void ClickEnterButton()
         {
             Driver.FindElement(enterButton).Click();
-            WaitHelper.SetPresenceOfAllElementsLocatedWait(enterFormChangeBlock);
+            WaitHelper.WaitForPresenceOfAllElementsLocated(enterFormChangeBlock);
         }
 
 
         public void InputLoginAndPassword()
         {
-            var jsonText = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText("appSettings.json"));//Config["loginValue"];
+            var jsonText = JsonHelper.GetDictiinaryFromJSON();
+
             var loginValue = jsonText["loginValue"];
             var passwordValue = jsonText["passwordValue"];
 
@@ -50,13 +47,9 @@ namespace Training.Pages
 
         public void ClickEnterButtonAfterInputEnterValues()
         {
-            var enterButton1 = Driver.FindElement(enterButtonAfterLogin);
-
-            if (enterButton1.Enabled)
-            {
-                enterButton1.Click();
-            }
-
+            var enterButton = Driver.FindElement(enterButtonAfterLogin);
+            
+            enterButton.Click();
         }
     }
 
