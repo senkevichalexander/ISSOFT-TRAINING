@@ -8,11 +8,11 @@ namespace Training.Helpers
     {
         private static readonly IWebDriver Driver = DriverGenerator.GetInstance();
 
-        public static void WaitElementExist(By by)
+        public static bool WaitElementExist(By by)
         {
             var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 20));
 
-            var element = wait.Until(condition =>
+            return wait.Until(condition =>
             {
                 try
                 {
@@ -21,7 +21,7 @@ namespace Training.Helpers
                 }
                 catch (StaleElementReferenceException)
                 {
-                    return false;
+                    return false;   
                 }
                 catch (NoSuchElementException)
                 {
@@ -30,11 +30,11 @@ namespace Training.Helpers
             });
         }
 
-        public static void WaitUntilElementClickable(By by)
+        public static bool WaitUntilElementClickable(By by)
         {
             var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 10));
 
-            var element = wait.Until(condition =>
+            return wait.Until(condition =>
             {
                 try
                 {
@@ -52,11 +52,11 @@ namespace Training.Helpers
             });
         }
 
-        public static void WaitUntilPercentCondition(By by, int percent)
+        public static bool WaitUntilPercentCondition(By by, int percent)
         {
             var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 30));
 
-            var isReady = wait.Until(condition =>
+            return wait.Until(condition =>
             {
                 try
                 {
@@ -75,11 +75,11 @@ namespace Training.Helpers
             });
         }
 
-        public static void WaitUntilAllElementsAreVisible(By by)
+        public static bool WaitUntilAllElementsAreVisible(By by)
         {
             var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 10));
 
-            var isReady = wait.Until(condition =>
+            return wait.Until(condition =>
             {
                 try
                 {

@@ -26,8 +26,8 @@ namespace Task2tests
             _homePage.InputLoginAndPassword(login, password);
             _homePage.ClickEnterButtonAfterInputEnterValues();
 
-            Assert.IsTrue(_homePage.IsPageOpened, 
-                "Homepage must be opened ater the login and user name must exists on page");
+            Assert.IsTrue(WaitHelper.WaitElementExist(_homePage.UserName),
+                    "Homepage must be opened ater the login and user name must exists on page");
         }
 
 

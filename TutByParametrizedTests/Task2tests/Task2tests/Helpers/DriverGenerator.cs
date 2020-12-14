@@ -26,9 +26,7 @@ namespace Training.Helpers
 
         public static void Quit()
         {
-            driver.Close();
             driver.Quit();
-            driver.Dispose();
             driver = null;
         }
     }

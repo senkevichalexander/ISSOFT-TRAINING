@@ -5,32 +5,32 @@ namespace Task2tests
 {
     public class AlertBoxDemoPage : MainPage
     {
-        private const string alertBoxDemoPageUrl = "https://www.seleniumeasy.com/test/javascript-alert-box-demo.html";
-        private readonly By firstAlertBoxButton = By.CssSelector("button[onclick='myAlertFunction()']");
-        private readonly By confirmBoxButton = By.CssSelector("button[onclick='myConfirmFunction()']");
-        private readonly By promtBoxButton = By.CssSelector("button[onclick='myPromptFunction()']");
-        private readonly By confirmIDField = By.CssSelector("#confirm-demo");
-        private readonly By promptIDField = By.CssSelector("#prompt-demo");
-        private readonly string name = "Alexander";
+        private const string _alertBoxDemoPageUrl = "https://www.seleniumeasy.com/test/javascript-alert-box-demo.html";
+        private readonly By _firstAlertBoxButton = By.CssSelector("button[onclick='myAlertFunction()']");
+        private readonly By _confirmBoxButton = By.CssSelector("button[onclick='myConfirmFunction()']");
+        private readonly By _promtBoxButton = By.CssSelector("button[onclick='myPromptFunction()']");
+        private readonly By _confirmIDField = By.CssSelector("#confirm-demo");
+        private readonly By _promptIDField = By.CssSelector("#prompt-demo");
+        private readonly string _name = "Alexander";
 
         public void OpenHomePage()
         {
-            Driver.Navigate().GoToUrl(alertBoxDemoPageUrl);
+            Driver.Navigate().GoToUrl(_alertBoxDemoPageUrl);
         }
 
         public void ClickAlertBoxButton()
         {
-            Driver.FindElement(firstAlertBoxButton).Click();
+            Driver.FindElement(_firstAlertBoxButton).Click();
         }
 
         public void ClickConfirmBoxButton()
         {
-            Driver.FindElement(confirmBoxButton).Click();
+            Driver.FindElement(_confirmBoxButton).Click();
         }
 
         public void ClickPromtBoxButton()
         {
-            Driver.FindElement(promtBoxButton).Click();
+            Driver.FindElement(_promtBoxButton).Click();
         }
 
         public bool IsAlertPresent()
@@ -66,7 +66,7 @@ namespace Task2tests
 
         public bool IsConfirmBoxChanged()
         {
-            var informationOfActionsMessage = Driver.FindElement(confirmIDField).Text;
+            var informationOfActionsMessage = Driver.FindElement(_confirmIDField).Text;
 
             return informationOfActionsMessage == "You pressed OK!";
         }
@@ -87,15 +87,15 @@ namespace Task2tests
 
         public bool IsPromptBoxChanged()
         {
-            var informationOfActionsMessage = Driver.FindElement(promptIDField).Text;
+            var informationOfActionsMessage = Driver.FindElement(_promptIDField).Text;
 
-            return informationOfActionsMessage == $"You have entered '{name}' !";
+            return informationOfActionsMessage == $"You have entered '{_name}' !";
         }
 
         public void ChooseOKConditionOfPromptBoxButton()
         {
             var prompt = GetAlertPrompt();
-            prompt.SendKeys(name);
+            prompt.SendKeys(_name);
             prompt.Accept();
             GetMainPageAfterAlertPromptClosed();
         }

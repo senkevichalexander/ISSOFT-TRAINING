@@ -5,23 +5,22 @@ namespace Training.Pages
 {
     public class HomePage : MainPage
     {
-        private const string homePage = "https://www.tut.by/";
-        private readonly By enterButton = By.ClassName("enter");
-        private readonly By loginField = By.CssSelector("input[name=login]");
-        private readonly By passwordField = By.CssSelector("input[name=password]");
-        private readonly By enterButtonAfterLogin = By.XPath("//*[@id='authorize']/div/div/div/div[2]/form/div[2]/input");
-        private readonly By userName = By.CssSelector(".uname");
+        private const string _homePage = "https://www.tut.by/";
+        private readonly By _enterButton = By.ClassName("enter");
+        private readonly By _loginField = By.CssSelector("input[name=login]");
+        private readonly By _passwordField = By.CssSelector("input[name=password]");
+        private readonly By _enterButtonAfterLogin = By.CssSelector("input.auth__enter");
 
-        public bool IsPageOpened { get; private set; }
+        public By UserName => By.CssSelector(".uname");
 
         public void OpenHomepage()
         {
-            Driver.Navigate().GoToUrl(homePage);
+            Driver.Navigate().GoToUrl(_homePage);
         }
 
         public void ClickEnterButton()
         {
-            Driver.FindElement(enterButton).Click();
+            Driver.FindElement(_enterButton).Click();
         }
 
 
@@ -31,22 +30,18 @@ namespace Training.Pages
             var loginValue = loginAttribute;
             var passwordValue = passwordAttribute;
 
-            var login = Driver.FindElement(loginField);
+            var login = Driver.FindElement(_loginField);
             login.SendKeys(loginValue);
 
-            var password = Driver.FindElement(passwordField);
+            var password = Driver.FindElement(_passwordField);
             password.SendKeys(passwordValue);
         }
 
         public void ClickEnterButtonAfterInputEnterValues()
         {
-            var enterButton = Driver.FindElement(enterButtonAfterLogin);
+            var enterButton = Driver.FindElement(_enterButtonAfterLogin);
 
             enterButton.Click();
-
-            WaitHelper.WaitElementExist(userName);
-
-            IsPageOpened = true;
         }
     }
 }

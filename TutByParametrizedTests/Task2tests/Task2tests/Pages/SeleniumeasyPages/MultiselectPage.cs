@@ -8,17 +8,17 @@ namespace Task2tests
 {
     public class MultiselectPage : MainPage
     {
-        private const string homePage = "https://www.seleniumeasy.com/test/basic-select-dropdown-demo.html";
-        private readonly By multiSelect = By.CssSelector("select#multi-select");
+        private const string _homePage = "https://www.seleniumeasy.com/test/basic-select-dropdown-demo.html";
+        private readonly By _multiSelect = By.CssSelector("select#multi-select");
 
         public void OpenHomepage()
         {
-            Driver.Navigate().GoToUrl(homePage);
+            Driver.Navigate().GoToUrl(_homePage);
         }
 
         public int GetSelectedElementsCount()
         {
-            var selectElement = new SelectElement(Driver.FindElement(multiSelect));
+            var selectElement = new SelectElement(Driver.FindElement(_multiSelect));
 
             var random = new Random();
             var elements = selectElement.Options.OrderBy(x => random.Next()).Take(3).ToList();

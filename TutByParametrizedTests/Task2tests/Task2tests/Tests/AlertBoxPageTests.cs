@@ -32,12 +32,12 @@ namespace Task2tests
             alertBoxDemoPage.ClickConfirmBoxButton();
             alertBoxDemoPage.ChooseOKConditionOfConfirmBoxButton();
 
-            Assert.IsTrue(alertBoxDemoPage.IsConfirmBoxChanged(), "alert condition must be confirmed");
+            Assert.IsTrue(alertBoxDemoPage.IsConfirmBoxChanged(), "Alert condition must be confirmed");
 
             alertBoxDemoPage.ClickConfirmBoxButton();
             alertBoxDemoPage.ChooseCancelConditionOfConfirmBoxButton();
 
-            Assert.IsFalse(alertBoxDemoPage.IsConfirmBoxChanged(), "alert condition must be dismissed");
+            Assert.IsFalse(alertBoxDemoPage.IsConfirmBoxChanged(), "Alert condition must be dismissed");
         }
 
 
@@ -50,14 +50,14 @@ namespace Task2tests
             alertBoxDemoPage.ClickPromtBoxButton();
             alertBoxDemoPage.ChooseOKConditionOfPromptBoxButton();
 
-            Assert.IsTrue(alertBoxDemoPage.IsPromptBoxChanged(), "alert condition must be confirmed");
+            Assert.IsTrue(alertBoxDemoPage.IsPromptBoxChanged(), "Alert condition must be confirmed");
 
             alertBoxDemoPage.RefreshPage();
 
             alertBoxDemoPage.ClickPromtBoxButton();
             alertBoxDemoPage.ChooseCancelConditionOfPromptBoxButton();
 
-            Assert.IsFalse(alertBoxDemoPage.IsPromptBoxChanged(), "alert condition must be dismissed");
+            Assert.IsFalse(alertBoxDemoPage.IsPromptBoxChanged(), "Alert condition must be dismissed");
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace Task2tests
 
             var count = homepage.GetSelectedElementsCount();
 
-            Assert.AreEqual(count, 3,"three options must be selected");
+            Assert.AreEqual(count, 3,"Three options must be selected");
         }
 
         [Test]
@@ -77,9 +77,8 @@ namespace Task2tests
             var userWaitsPage = new UserWaitsPage();
             userWaitsPage.OpenHomePage();
             userWaitsPage.ClickGetNewUserButton();
-            var page = userWaitsPage.WaitForUser();
 
-            Assert.IsTrue(page, "new user info must be dispayed");
+            Assert.IsTrue(WaitHelper.WaitUntilAllElementsAreVisible(userWaitsPage.UserContainer), "New user info must be dispayed");
         }
 
 
@@ -90,7 +89,11 @@ namespace Task2tests
             var downloadPage = new DownloadDemoPage();
             downloadPage.OpenHomePage();
             downloadPage.ClickDownloadButton();
-            downloadPage.RefreshPageAfter(numberOfPercent); 
+
+            Assert.IsTrue(WaitHelper.WaitUntilPercentCondition(downloadPage.DownloadPercentViewer, numberOfPercent),
+                "Download must be stooped, and after than page must be refreshed");
+
+            downloadPage.RefreshPage();
         }
 
         [Test]
@@ -102,7 +105,7 @@ namespace Task2tests
             tablepage.ChooseQuantityOfEntries(countOfRows);
 
             var workers = tablepage.GetWorkersBySalaryAndAge(age, salary);
-            Assert.IsNotNull(workers, "count of custom workers must be added in list");
+            Assert.IsNotNull(workers, "Count of custom workers must be added in list");
         }
 
 

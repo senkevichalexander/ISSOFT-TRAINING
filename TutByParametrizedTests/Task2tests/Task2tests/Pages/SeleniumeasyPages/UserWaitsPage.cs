@@ -6,27 +6,18 @@ namespace Task2tests
 {
     public class UserWaitsPage : MainPage
     {
-        private const string homePage = "https://www.seleniumeasy.com/test/dynamic-data-loading-demo.html";
-        private readonly By getNewUserButton = By.Id("save");
-        private readonly By userContainer = By.XPath("//div[@id='loading']/*");
+        private const string _homePage = "https://www.seleniumeasy.com/test/dynamic-data-loading-demo.html";
+        private readonly By _getNewUserButton = By.Id("save");
+        public By UserContainer => By.XPath("//div[@id='loading']/*");
 
         public void OpenHomePage()
         {
-            Driver.Navigate().GoToUrl(homePage);
+            Driver.Navigate().GoToUrl(_homePage);
         }
 
         public void ClickGetNewUserButton()
         {
-            Driver.FindElement(getNewUserButton).Click();
-        }
-
-        public bool WaitForUser()
-        {
-            var elementInContainer = Driver.FindElement(userContainer);
-
-            WaitHelper.WaitUntilAllElementsAreVisible(userContainer);
-
-            return elementInContainer.Displayed;  
+            Driver.FindElement(_getNewUserButton).Click();
         }
     }
 }

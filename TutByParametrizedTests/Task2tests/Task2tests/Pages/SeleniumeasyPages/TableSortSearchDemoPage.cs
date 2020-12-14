@@ -9,31 +9,31 @@ namespace Task2tests.Pages.SeleniumeasyPages
 {
     public class TableSortSearchDemoPage : MainPage
     {
-        private const string tableSortSearchPage = "https://www.seleniumeasy.com/test/table-sort-search-demo.html";
-        private readonly By numberSelect = By.CssSelector("select[name='example_length']");
-        private readonly By informationAboutWorker = By.CssSelector("tbody>tr");
-        private readonly By workerName = By.CssSelector("tr>td:nth-child(1)");
-        private readonly By workerPosition= By.CssSelector("tr>td:nth-child(2)");
-        private readonly By workerOffice = By.CssSelector("tr>td:nth-child(3)");
-        private readonly By workerAge = By.CssSelector("tr>td:nth-child(4)");
-        private readonly By workerSalary = By.CssSelector("tr>td:nth-child(6)");
-        private readonly By netxPageButton = By.CssSelector("#example_next");
-        private readonly By numberOfPages = By.CssSelector("span>a");
+        private const string _tableSortSearchPage = "https://www.seleniumeasy.com/test/table-sort-search-demo.html";
+        private readonly By _numberSelect = By.CssSelector("select[name='example_length']");
+        private readonly By _informationAboutWorker = By.CssSelector("tbody>tr");
+        private readonly By _workerName = By.CssSelector("tr>td:nth-child(1)");
+        private readonly By _workerPosition= By.CssSelector("tr>td:nth-child(2)");
+        private readonly By _workerOffice = By.CssSelector("tr>td:nth-child(3)");
+        private readonly By _workerAge = By.CssSelector("tr>td:nth-child(4)");
+        private readonly By _workerSalary = By.CssSelector("tr>td:nth-child(6)");
+        private readonly By _nextPageButton = By.CssSelector("#example_next");
+        private readonly By _numberOfPages = By.CssSelector("span>a");
 
         public void OpenTableSortSearchDemoPage()
         {
-            Driver.Navigate().GoToUrl(tableSortSearchPage);
+            Driver.Navigate().GoToUrl(_tableSortSearchPage);
         }
 
         public void ChooseQuantityOfEntries(string countOfRows)
         {
-            var selectElement = new SelectElement(Driver.FindElement(numberSelect));
+            var selectElement = new SelectElement(Driver.FindElement(_numberSelect));
             selectElement.SelectByValue(countOfRows);
         }
 
         private List<IWebElement> GetRowsInfo()
         {
-            var rowInfo = Driver.FindElements(informationAboutWorker).ToList();
+            var rowInfo = Driver.FindElements(_informationAboutWorker).ToList();
 
             return rowInfo;
         }
@@ -44,14 +44,14 @@ namespace Task2tests.Pages.SeleniumeasyPages
 
             foreach (var item in workerInfo)
             {
-                var name = item.FindElement(workerName).Text;
-                var position = item.FindElement(workerPosition).Text;
-                var office = item.FindElement(workerOffice).Text;
+                var name = item.FindElement(_workerName).Text;
+                var position = item.FindElement(_workerPosition).Text;
+                var office = item.FindElement(_workerOffice).Text;
 
-                var ageText = item.FindElement(workerAge).Text;
+                var ageText = item.FindElement(_workerAge).Text;
                 var age = Convert.ToInt32(ageText);
 
-                var salaryText = item.FindElement(workerSalary).Text.Trim(new char[] {'$', '/', 'y' });
+                var salaryText = item.FindElement(_workerSalary).Text.Trim(new char[] {'$', '/', 'y' });
                 var salary = Convert.ToDecimal(salaryText);
 
                 var worker = new Worker(name, position, office, age, salary);
@@ -82,7 +82,7 @@ namespace Task2tests.Pages.SeleniumeasyPages
 
                 allWorkers.AddRange(workers);
 
-                var nextPage = Driver.FindElement(netxPageButton);
+                var nextPage = Driver.FindElement(_nextPageButton);
 
                 if(nextPage.Enabled)
                 {
@@ -95,7 +95,7 @@ namespace Task2tests.Pages.SeleniumeasyPages
 
         private int GetNumberOfTablePages()
         {
-            var countOfPages = Driver.FindElements(numberOfPages).Count;
+            var countOfPages = Driver.FindElements(_numberOfPages).Count;
 
             return countOfPages;
         }
