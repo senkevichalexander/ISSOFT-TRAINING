@@ -1,12 +1,13 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.IO;
 
 namespace PageObjectTests
 {
     public static class Browser
     {
-        private const string chromeDriver = "chromedriver";
+        //private const string chromeDriver = "chromedriver";
         private static IWebDriver WebDriver { get; set; }
 
         public static void Initializes(bool maximized = true)
@@ -36,6 +37,21 @@ namespace PageObjectTests
         {
             WebDriver.Quit();
             //KillDriverProcesses();
+        }
+
+        public static void PrintScreen(string fileName, ScreenshotImage‌​Format ScreenshotImage‌​Format, string path = null)
+        {
+            if (WebDriver == null)
+                return;
+
+            if (String.IsNullOrEmpty(path))
+                path = Directory.GetCurrentDirectory() + @"\..\..\..\Screenshots\";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            var file = path + fileName + "." + ScreenshotImage‌​Format.ToString();
+            Screenshot ss = ((ITakesScreenshot)WebDriver).GetScreenshot();
+            ss.SaveAsFile(file, ScreenshotImage‌​Format);
         }
 
         //private static void KillDriverProcesses()

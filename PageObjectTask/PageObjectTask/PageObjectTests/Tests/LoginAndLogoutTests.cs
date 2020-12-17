@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using PageObjectTests.Helpers;
 using PageObjectTests.Pages;
 
 namespace PageObjectTests
@@ -6,6 +7,7 @@ namespace PageObjectTests
     [TestFixture]
     public class Tests
     {
+        private ReportHelper _reportHelper = new ReportHelper();
 
         [SetUp]
         public void Setup()
@@ -15,7 +17,7 @@ namespace PageObjectTests
             Browser.GoToPage(tutByHomepage);
             Assert.IsTrue(tutByHomepage.IsOpened);
         }
-
+        
         [Test]
         [TestCase("seleniumtests@tut.by", "123456789zxcvbn")]
 
@@ -56,6 +58,7 @@ namespace PageObjectTests
         [TearDown]
         public void AfterTests()
         {
+            _reportHelper.GenerateReport();
             Browser.Quit();
         }
     }
