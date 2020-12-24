@@ -1,11 +1,15 @@
+using Allure.Commons;
+using Allure.NUnit.Attributes;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using PageObjectTests.Helpers;
 using PageObjectTests.Pages;
 
 namespace PageObjectTests
 {
     [TestFixture]
-    public class Tests
+    [AllureSuite("")]
+    public class Tests : AllureReport
     {
         private ReportHelper _reportHelper = new ReportHelper();
 
@@ -18,7 +22,11 @@ namespace PageObjectTests
             Assert.IsTrue(tutByHomepage.IsOpened);
         }
         
-        [Test]
+        [Test(Description = "Log in Tut.By and check page is loaded")]
+        [AllureSeverity(Allure.Commons.Model.SeverityLevel.Minor)]
+        [AllureLink("https://www.tut.by/")]
+        [AllureOwner("Alexander Senkevich")]
+        [AllureSubSuite("Log in")]
         [TestCase("seleniumtests@tut.by", "123456789zxcvbn")]
 
         public void LoginToSite(string login, string password)
@@ -33,7 +41,11 @@ namespace PageObjectTests
         }
 
 
-        [Test]
+        [Test(Description = "Log out Tut.by affter log in and check page is loaded")]
+        [AllureSeverity(Allure.Commons.Model.SeverityLevel.Critical)]
+        [AllureLink("https://www.tut.by/")]
+        [AllureOwner("Alexander Senkevich")]
+        [AllureSubSuite("Log out")]
         [TestCase("seleniumtests@tut.by", "123456789zxcvbn")]
 
         public void LogoutFromTutBy(string login, string password)
@@ -49,16 +61,22 @@ namespace PageObjectTests
             authorizeForm.EnterTheAuthorrizationForm();
 
             Assert.IsNotNull(authorizeForm.ActiveAuthorizeForm, "Authorize fom must be opened");
-            
+
             authorizeForm.ClickExitButton();
 
             Assert.IsNotNull(authorizeForm.EnterButton, "Page must be opened after exit from the profile");
         }
 
+        [Test]
+        public void NonWorkingTest()
+        {
+            Browser.Driver.FindElement(By.CssSelector("blabla"));
+        }
+
         [TearDown]
         public void AfterTests()
         {
-            _reportHelper.GenerateReport();
+            _reportHelper.MakeScreenshorAfterTestIsFailed();
             Browser.Quit();
         }
     }

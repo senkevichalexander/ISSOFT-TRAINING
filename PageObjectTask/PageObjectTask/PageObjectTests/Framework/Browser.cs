@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.IO;
@@ -7,8 +8,12 @@ namespace PageObjectTests
 {
     public static class Browser
     {
+
         //private const string chromeDriver = "chromedriver";
         private static IWebDriver WebDriver { get; set; }
+        public static string BrowserName => ((RemoteWebDriver)WebDriver).Capabilities.GetCapability("browserName").ToString();
+        public static string BrowserVersion => ((RemoteWebDriver)WebDriver).Capabilities.GetCapability("browserVersion").ToString();
+        
 
         public static void Initializes(bool maximized = true)
         {
@@ -44,7 +49,7 @@ namespace PageObjectTests
             if (WebDriver == null)
                 return;
 
-            if (String.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path))
                 path = Directory.GetCurrentDirectory() + @"\..\..\..\Screenshots\";
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
