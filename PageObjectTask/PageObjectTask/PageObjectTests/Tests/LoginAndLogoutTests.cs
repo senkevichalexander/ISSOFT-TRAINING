@@ -1,7 +1,6 @@
 using Allure.Commons;
 using Allure.NUnit.Attributes;
 using NUnit.Framework;
-using OpenQA.Selenium;
 using PageObjectTests.Helpers;
 using PageObjectTests.Pages;
 
@@ -65,12 +64,6 @@ namespace PageObjectTests
             authorizeForm.ClickExitButton();
 
             Assert.IsNotNull(authorizeForm.EnterButton, "Page must be opened after exit from the profile");
-        }
-
-        [Test]
-        public void NonWorkingTest()
-        {
-            Browser.Driver.FindElement(By.CssSelector("blabla"));
         }
 
         [TearDown]
