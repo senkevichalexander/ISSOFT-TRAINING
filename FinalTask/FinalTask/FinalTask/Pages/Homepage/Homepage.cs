@@ -1,4 +1,6 @@
-﻿namespace PageObjectTests.Pages
+﻿using FinalTask.Framework;
+
+namespace FinalTask.Pages.Homepage
 {
     public class Homepage : PageBase
     {

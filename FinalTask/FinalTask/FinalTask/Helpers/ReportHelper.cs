@@ -1,10 +1,11 @@
 ﻿using Allure.Commons;
+using FinalTask.Framework;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using System;
 
-namespace PageObjectTests.Helpers
+namespace FinalTask.Helpers
 {
     public class ReportHelper
     {

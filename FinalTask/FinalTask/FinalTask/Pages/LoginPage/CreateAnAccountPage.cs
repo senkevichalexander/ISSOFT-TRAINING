@@ -1,12 +1,9 @@
-﻿using OpenQA.Selenium;
+﻿using FinalTask.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 
-namespace PageObjectTests.LoginPage
+namespace FinalTask.Pages.LoginPage
 {
     public class CreateAnAccountPage : PageBase
     {

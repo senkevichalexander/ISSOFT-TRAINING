@@ -1,10 +1,8 @@
-﻿
-
+﻿using FinalTask.Framework;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using System.Configuration;
 
-namespace PageObjectTests.Pages
+namespace FinalTask.Pages.LoginPage
 {
     public class LoginPage : PageBase
     {
@@ -17,12 +15,32 @@ namespace PageObjectTests.Pages
         private readonly string title = "Login - My Store";
         //private readonly string emailValue = ConfigurationManager.AppSettings["RegistrationEmail"];
         private readonly string emailValue = "sdad4616@gmail.com";
+        private readonly string password = "Qwerty1";
+
+
+        #region WebElements
 
         [FindsBy(How = How.CssSelector, Using = "#email_create")]
         private IWebElement _registerInputField;
 
         [FindsBy(How = How.CssSelector, Using = "button#SubmitCreate")]
         private IWebElement _createAnAccountButton;
+
+        [FindsBy(How = How.CssSelector, Using = "#login_form #email")]
+        private IWebElement _emailField;
+
+        [FindsBy(How = How.CssSelector, Using = "#passwd")]
+        private IWebElement _passwordField;
+
+        [FindsBy(How = How.CssSelector, Using = "#SubmitLogin")]
+        private IWebElement _signInButton;
+
+        #endregion
+
+        public void OpenLoginPage()
+        {
+            Browser.Driver.Navigate().GoToUrl(_loginPage);
+        }
 
         public bool IsOpened
         {
@@ -43,6 +61,21 @@ namespace PageObjectTests.Pages
         {
             InputEmailToCreateAccount();
             ClickCreateAnAccountButton();
+        }
+
+        public void InputEmailForSignIn()
+        {
+            _emailField.SendKeys(emailValue);
+        }
+
+        public void InputPasswordForSignIn()
+        {
+            _passwordField.SendKeys(password);
+        }
+
+        public void ClickSignInButton()
+        {
+            _signInButton.Click();
         }
     }
 }

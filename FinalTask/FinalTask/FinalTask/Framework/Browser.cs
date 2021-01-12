@@ -1,11 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using FinalTask.Helpers;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.IO;
 
-namespace PageObjectTests
+namespace FinalTask.Framework
 {
     public static class Browser
     {
@@ -71,17 +72,29 @@ namespace PageObjectTests
             wait.Until((webDriver => element.Displayed && element.Enabled));
         }
 
-        public static void MoveToElementAction(IWebElement element)
+        public static void WaitForElementIsVisible(IWebElement element, int seconds)
         {
-            Actions action = new Actions(WebDriver);
-            action.MoveToElement(element).Perform();
+            WebDriverWait wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(seconds));
+            wait.Until(x => element.Displayed);//ExpectedConditions.VisibilityOfAllElementsLocatedBy(element));// ;
         }
 
-        //public static void WaitUntilElementDisplayed(IWebElement element, int seconds)
-        //{
-        //    WebDriverWait wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(seconds));
-        //    wait.Until((webDriver => element.Displayed && element.Enabled));
-        //}
+        public static void SwitchToFrame(IWebElement element)
+        {
+            Driver.SwitchTo().Frame(element);
+        }
 
+        public static void SwitchToDefaultContent()
+        {
+            Driver.SwitchTo().DefaultContent();
+        }
+
+        public static string GetSelectedElementsText(IWebElement element)
+        {
+            var selectElement = new SelectElement(element);
+
+            var elem = selectElement.SelectedOption.Text;
+
+            return elem;
+        }
     }
 }

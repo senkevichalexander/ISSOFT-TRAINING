@@ -1,6 +1,7 @@
-﻿using SeleniumExtras.PageObjects;
+﻿using FinalTask.Framework;
+using SeleniumExtras.PageObjects;
 
-namespace PageObjectTests.Helpers
+namespace FinalTask.Helpers
 {
     public class PageFactoryHelper
     {
