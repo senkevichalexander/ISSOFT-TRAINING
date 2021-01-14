@@ -78,7 +78,5 @@ namespace FinalTask.Pages.MyAccountPage
         {
             _productsNameTopSellers[0].Click();
         }
-        
-
     }
 }

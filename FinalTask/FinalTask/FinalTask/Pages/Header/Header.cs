@@ -28,9 +28,5 @@ namespace FinalTask.Pages.Header
         {
             _account.Click();
         }
-
-
-
-
     }
 }

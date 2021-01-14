@@ -1,6 +1,5 @@
 ﻿using FinalTask.Helpers;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -10,9 +9,6 @@ namespace FinalTask.Framework
 {
     public static class Browser
     {
-
-
-        //private const string chromeDriver = "chromedriver";
         private static IWebDriver WebDriver { get; set; }
         public static string BrowserName => ((RemoteWebDriver)WebDriver).Capabilities.GetCapability("browserName").ToString();
         public static string BrowserVersion => ((RemoteWebDriver)WebDriver).Capabilities.GetCapability("browserVersion").ToString();
@@ -24,6 +20,7 @@ namespace FinalTask.Framework
             if (maximized)
             {
                 WebDriver.Manage().Window.Maximize();
+                WebDriver.Manage().Timeouts().PageLoad.Add(TimeSpan.FromSeconds(30));
             }
         }
 
@@ -38,6 +35,11 @@ namespace FinalTask.Framework
         public static void GoToPage(PageBase page)
         {
             WebDriver.Navigate().GoToUrl(page.PageUrl);
+        }
+
+        public static void ReturnToPreviousPage()
+        {
+            WebDriver.Navigate().Back();
         }
 
         public static void Quit()
@@ -91,7 +93,6 @@ namespace FinalTask.Framework
         public static string GetSelectedElementsText(IWebElement element)
         {
             var selectElement = new SelectElement(element);
-
             var elem = selectElement.SelectedOption.Text;
 
             return elem;

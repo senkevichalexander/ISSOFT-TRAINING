@@ -13,7 +13,6 @@ namespace FinalTask.Pages.LoginPage
 
         private const string _loginPage = "http://automationpractice.com/index.php?controller=authentication&back=my-account";
         private readonly string title = "Login - My Store";
-        //private readonly string emailValue = ConfigurationManager.AppSettings["RegistrationEmail"];
         private readonly string emailValue = "sdad4616@gmail.com";
         private readonly string password = "Qwerty1";
 

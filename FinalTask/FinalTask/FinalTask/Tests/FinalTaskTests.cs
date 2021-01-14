@@ -4,7 +4,7 @@ using FinalTask.Framework;
 using FinalTask.Helpers;
 using FinalTask.Pages;
 using NUnit.Framework;
-using System.Threading;
+using System.Linq;
 
 namespace FinalTask.Tests
 {
@@ -22,7 +22,7 @@ namespace FinalTask.Tests
             loginpage.OpenLoginPage();
             Assert.IsTrue(loginpage.IsOpened, "Login page must be  opened");
         }
-        
+
         [Test(Description = "Register on site with required fields and check  account was created")]
         [AllureSeverity(Allure.Commons.Model.SeverityLevel.Minor)]
         [AllureLink("http://automationpractice.com/")]
@@ -49,7 +49,7 @@ namespace FinalTask.Tests
         {
             var loginPage = PageGenerator.LoginPage;
             var myAccountPage = PageGenerator.MyAccountPage;
-            
+
 
             loginPage.InputEmailForSignIn();
             loginPage.InputPasswordForSignIn();
@@ -66,10 +66,14 @@ namespace FinalTask.Tests
 
         public void AddToAutoCreatedWishlist()
         {
+            #region Pages
             var loginPage = PageGenerator.LoginPage;
             var myAccountPage = PageGenerator.MyAccountPage;
             var productPage = PageGenerator.ProductPage;
             var header = PageGenerator.Header;
+            var myWishlists = PageGenerator.MyWishlistsPage;
+            var topSellersBlock = PageGenerator.TopSellersBlock;
+            #endregion
 
             loginPage.InputEmailForSignIn();
             loginPage.InputPasswordForSignIn();
@@ -79,21 +83,121 @@ namespace FinalTask.Tests
 
             myAccountPage.ClickMyWishlists();
             myAccountPage.ClearTheWishlists();
-            myAccountPage.ClickFirstTopSellersProduct();
+
+            topSellersBlock.ClickFirstTopSellersProduct();
+            //myAccountPage.ClickFirstTopSellersProduct();
 
             productPage.ClickAddToWishlistButton();
             productPage.CloseOverlayAddToWishlist();
-
-            var a = productPage.GetProductNameText();
-            var b = productPage.GetSizeDropdownText();
-            var c = productPage.GetColorText();
+            var productPropertiesFromProductPage = productPage.GetProductPropertiesToList();
 
             header.ClickAccount();
+            myAccountPage.ClickMyWishlists();
+
+            myWishlists.OpenWishlistDetail();
+            var productPropertiesFromWishlist = myWishlists.GetProductPropertiesToList();
+
+            Assert.IsTrue(Enumerable.SequenceEqual(productPropertiesFromProductPage.OrderBy(t => t),
+                productPropertiesFromWishlist.OrderBy(t => t)), "Productis added to auto-created wishlist");
+        }
+
+
+        [Test(Description = "Create a wishlist and add prioduct")]
+        [AllureSeverity(Allure.Commons.Model.SeverityLevel.Minor)]
+        [AllureLink("http://automationpractice.com/")]
+        [AllureOwner("Alexander Senkevich")]
+        [AllureSubSuite("Create wishlist")]
+
+        public void AddProductToCreatedWishlist()
+        {
+            #region Pages
+            var loginPage = PageGenerator.LoginPage;
+            var myAccountPage = PageGenerator.MyAccountPage;
+            var productPage = PageGenerator.ProductPage;
+            var header = PageGenerator.Header;
+            var myWishlists = PageGenerator.MyWishlistsPage;
+            var topSellersBlock = PageGenerator.TopSellersBlock;
+            #endregion
+
+            loginPage.InputEmailForSignIn();
+            loginPage.InputPasswordForSignIn();
+            loginPage.ClickSignInButton();
+
+            Assert.IsTrue(myAccountPage.IsOpened, "MyAcccount page must be opened");
 
             myAccountPage.ClickMyWishlists();
 
-            Thread.Sleep(10000);
+            myWishlists.InputNameOfWishList();
+            myWishlists.ClickSaveButton();
+
+            topSellersBlock.ClickFirstTopSellersProduct();
+
+            productPage.ClickAddToWishlistButton();
+            productPage.CloseOverlayAddToWishlist();
+            var productPropertiesFromProductPage = productPage.GetProductPropertiesToList();
+
+            header.ClickAccount();
+            myAccountPage.ClickMyWishlists();
+
+            myWishlists.OpenWishlistDetail();
+            var productPropertiesFromWishlist = myWishlists.GetProductPropertiesToList();
+
+            Assert.IsTrue(Enumerable.SequenceEqual(productPropertiesFromProductPage.OrderBy(t => t),
+                productPropertiesFromWishlist.OrderBy(t => t)), "Productis added to auto-created wishlist");
+
         }
+
+
+        [Test(Description = "Verify the ability to add to cart")]
+        [AllureSeverity(Allure.Commons.Model.SeverityLevel.Minor)]
+        [AllureLink("http://automationpractice.com/")]
+        [AllureOwner("Alexander Senkevich")]
+        [AllureSubSuite("Add card")]
+
+        public void CardAddTest()
+        {
+            #region Pages
+            var loginPage = PageGenerator.LoginPage;
+            var myAccountPage = PageGenerator.MyAccountPage;
+            var productPage = PageGenerator.ProductPage;
+            var topSellersBlock = PageGenerator.TopSellersBlock;
+            var cartMenu = PageGenerator.CartMenu;
+            var shoppingCartPage = PageGenerator.ShoppingCartPage;
+            #endregion
+
+            loginPage.InputEmailForSignIn();
+            loginPage.InputPasswordForSignIn();
+            loginPage.ClickSignInButton();
+
+            Assert.IsTrue(myAccountPage.IsOpened, "MyAcccount page must be opened");
+
+            myAccountPage.ClickMyWishlists();
+
+            topSellersBlock.ClickFirstTopSellersProduct();
+            productPage.ClickAddToCardButton();
+            productPage.ClickContinueShoppingButton();
+            var firstProductPrice = productPage.GetProductPrice();
+            Browser.ReturnToPreviousPage();
+
+            topSellersBlock.ClickSecondTopSellersProduct();
+            productPage.ClickAddToCardButton();
+            productPage.ClickContinueShoppingButton();
+            var secondProductPrice = productPage.GetProductPrice();
+            Browser.ReturnToPreviousPage();
+
+            topSellersBlock.ClickThirdTopSellersProduct();
+            productPage.ClickAddToCardButton();
+            productPage.ClickContinueShoppingButton();
+            var thirdProductPrice = productPage.GetProductPrice();
+            var allProductsPrice = firstProductPrice + secondProductPrice + thirdProductPrice;
+
+            cartMenu.ClickShoppingCartMennu();
+            var allAddedInCartProductsSum = shoppingCartPage.GetSumFromProductsPrice();
+
+            Assert.IsTrue(allProductsPrice == allAddedInCartProductsSum &&
+                shoppingCartPage.IsPriceOfTheProductEqual(), "Products are added to the card and prices are the same");
+        }
+        
 
         [TearDown]
         public void AfterTests()
