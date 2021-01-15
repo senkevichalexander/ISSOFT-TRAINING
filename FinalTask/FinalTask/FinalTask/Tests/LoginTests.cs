@@ -35,13 +35,6 @@ namespace FinalTask.Tests
             var loginPage = PageGenerator.LoginPage;
             var myAccountPage = PageGenerator.MyAccountPage;
 
-            //var userRepository = new UserRepository();
-            //var a = userRepository.GetTestUser();
-
-            //var config = ConfigurationHelper.InitUserData();
-            //var a = config.GetSection("RegisterData");
-            
-
             loginPage.InputEmailForSignIn();
             loginPage.InputPasswordForSignIn();
             loginPage.ClickSignInButton();
