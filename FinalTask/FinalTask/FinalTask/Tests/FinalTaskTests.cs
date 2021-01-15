@@ -12,49 +12,21 @@ namespace FinalTask.Tests
     [AllureSuite("")]
     public class Tests : AllureReport
     {
-        private ReportHelper _reportHelper = new ReportHelper();
+        private readonly ReportHelper _reportHelper = new ReportHelper();
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             Browser.Initializes(true);
-            var loginpage = PageGenerator.LoginPage;
-            loginpage.OpenLoginPage();
-            Assert.IsTrue(loginpage.IsOpened, "Login page must be  opened");
-        }
-
-        [Test(Description = "Register on site with required fields and check  account was created")]
-        [AllureSeverity(Allure.Commons.Model.SeverityLevel.Minor)]
-        [AllureLink("http://automationpractice.com/")]
-        [AllureOwner("Alexander Senkevich")]
-        [AllureSubSuite("Register")]
-
-        public void RegisterOnSite()
-        {
             var loginPage = PageGenerator.LoginPage;
-            var createAnAccountPage = PageGenerator.CreateAnAccountPage;
-
-            loginPage.CreateAnAccount();
-            createAnAccountPage.RegisterWithRequiredFields();
-            createAnAccountPage.ClickRegisterButton();
-        }
-
-        [Test(Description = "Login to site")]
-        [AllureSeverity(Allure.Commons.Model.SeverityLevel.Minor)]
-        [AllureLink("http://automationpractice.com/")]
-        [AllureOwner("Alexander Senkevich")]
-        [AllureSubSuite("Login")]
-
-        public void LogInTest()
-        {
-            var loginPage = PageGenerator.LoginPage;
-            var myAccountPage = PageGenerator.MyAccountPage;
-
-
+            loginPage.OpenLoginPage();
+            Assert.IsTrue(loginPage.IsOpened, "Login page must be  opened");
+                        
             loginPage.InputEmailForSignIn();
             loginPage.InputPasswordForSignIn();
             loginPage.ClickSignInButton();
 
+            var myAccountPage = PageGenerator.MyAccountPage;
             Assert.IsTrue(myAccountPage.IsOpened, "MyAcccount page must be opened");
         }
 
@@ -75,17 +47,11 @@ namespace FinalTask.Tests
             var topSellersBlock = PageGenerator.TopSellersBlock;
             #endregion
 
-            loginPage.InputEmailForSignIn();
-            loginPage.InputPasswordForSignIn();
-            loginPage.ClickSignInButton();
-
-            Assert.IsTrue(myAccountPage.IsOpened, "MyAcccount page must be opened");
 
             myAccountPage.ClickMyWishlists();
             myAccountPage.ClearTheWishlists();
 
             topSellersBlock.ClickFirstTopSellersProduct();
-            //myAccountPage.ClickFirstTopSellersProduct();
 
             productPage.ClickAddToWishlistButton();
             productPage.CloseOverlayAddToWishlist();
@@ -119,11 +85,7 @@ namespace FinalTask.Tests
             var topSellersBlock = PageGenerator.TopSellersBlock;
             #endregion
 
-            loginPage.InputEmailForSignIn();
-            loginPage.InputPasswordForSignIn();
-            loginPage.ClickSignInButton();
-
-            Assert.IsTrue(myAccountPage.IsOpened, "MyAcccount page must be opened");
+            header.ClickAccount();
 
             myAccountPage.ClickMyWishlists();
 
@@ -143,8 +105,7 @@ namespace FinalTask.Tests
             var productPropertiesFromWishlist = myWishlists.GetProductPropertiesToList();
 
             Assert.IsTrue(Enumerable.SequenceEqual(productPropertiesFromProductPage.OrderBy(t => t),
-                productPropertiesFromWishlist.OrderBy(t => t)), "Productis added to auto-created wishlist");
-
+                productPropertiesFromWishlist.OrderBy(t => t)), "Product is added to auto-created wishlist");
         }
 
 
@@ -157,6 +118,7 @@ namespace FinalTask.Tests
         public void CardAddTest()
         {
             #region Pages
+            var header = PageGenerator.Header;
             var loginPage = PageGenerator.LoginPage;
             var myAccountPage = PageGenerator.MyAccountPage;
             var productPage = PageGenerator.ProductPage;
@@ -165,12 +127,9 @@ namespace FinalTask.Tests
             var shoppingCartPage = PageGenerator.ShoppingCartPage;
             #endregion
 
-            loginPage.InputEmailForSignIn();
-            loginPage.InputPasswordForSignIn();
-            loginPage.ClickSignInButton();
+            loginPage.OpenLoginPage();
 
-            Assert.IsTrue(myAccountPage.IsOpened, "MyAcccount page must be opened");
-
+            header.ClickAccount();
             myAccountPage.ClickMyWishlists();
 
             topSellersBlock.ClickFirstTopSellersProduct();
@@ -197,9 +156,9 @@ namespace FinalTask.Tests
             Assert.IsTrue(allProductsPrice == allAddedInCartProductsSum &&
                 shoppingCartPage.IsPriceOfTheProductEqual(), "Products are added to the card and prices are the same");
         }
-        
 
-        [TearDown]
+
+        [OneTimeTearDown]
         public void AfterTests()
         {
             _reportHelper.MakeScreenshorAfterTestIsFailed();

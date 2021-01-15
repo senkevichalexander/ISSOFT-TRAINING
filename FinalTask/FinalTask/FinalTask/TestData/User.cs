@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace FinalTask.TestData
 {
-    public class TestPerson
+    [JsonObject("User")]
+    public class User
     {
         public string EmailValue { get; set; }
         public string FirstName { get; set; }

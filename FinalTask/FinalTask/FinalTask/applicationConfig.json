@@ -1,0 +1,3 @@
+{
+  "WebDriverType": "Chrome" //Chrome, FireFox, Grid, SauceLabs
+}

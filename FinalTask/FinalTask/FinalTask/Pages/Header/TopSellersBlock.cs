@@ -1,7 +1,6 @@
 ﻿using FinalTask.Framework;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using System;
 using System.Collections.Generic;
 
 namespace FinalTask.Pages.Header
@@ -15,7 +14,7 @@ namespace FinalTask.Pages.Header
 
         #region WebElements
         [FindsBy(How = How.CssSelector, Using = "div#best-sellers_block_right a.product-name")]
-        private IList<IWebElement> _productsNameTopSellers;
+        private readonly IList<IWebElement> _productsNameTopSellers;
 
         #endregion
 

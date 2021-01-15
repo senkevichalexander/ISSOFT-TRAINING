@@ -12,20 +12,16 @@ namespace FinalTask.Pages.Header
         #region WebElements
 
         [FindsBy(How = How.CssSelector, Using = ".login")]
-        private IWebElement _loginButton;
+        private readonly IWebElement _loginButton;
 
         [FindsBy(How = How.CssSelector, Using = ".account")]
-        private IWebElement _account;
+        private readonly IWebElement _account;
 
         #endregion
 
-        public void ClickLoginButton()
-        {
-            _loginButton.Click();
-        }
-
         public void ClickAccount()
         {
+            WaitForElement(_account);
             _account.Click();
         }
     }

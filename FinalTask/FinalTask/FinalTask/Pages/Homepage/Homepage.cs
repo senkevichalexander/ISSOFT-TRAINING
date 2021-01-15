@@ -16,9 +16,6 @@ namespace FinalTask.Pages.Homepage
             Browser.Driver.Navigate().GoToUrl(_homePage);
         }
 
-        public bool IsOpened
-        {
-            get { return Browser.Driver.Title.Equals(title); }
-        }
+        public bool IsOpened => Browser.Driver.Title.Equals(title);
     }
 }

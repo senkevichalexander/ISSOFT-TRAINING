@@ -1,6 +1,4 @@
-﻿
-
-using FinalTask.Framework;
+﻿using FinalTask.Framework;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using System;
@@ -18,12 +16,12 @@ namespace FinalTask.Pages.ShoppingCartPage
         #region WebElements
 
         [FindsBy(How = How.CssSelector, Using = ".cart_item")]
-        private IList<IWebElement> _cartItems;
+        private readonly IList<IWebElement> _cartItems;
 
         [FindsBy(How = How.CssSelector, Using = "#total_product")]
-        private IWebElement _totalProductPrice;
+        private readonly IWebElement _totalProductPrice;
 
-        private By _actualPrice = By.CssSelector(".cart_unit span span.price");
+        private readonly By _actualPrice = By.CssSelector(".cart_unit span span.price");
 
         #endregion
 

@@ -1,8 +1,13 @@
 {
-  "RegisterData": {
-    {
-      "FirstName" : "Alexander"
-    }
-
-
-  }
+  "Adress": "Shulhi",
+  "AdressAlias": "Fan",
+  "City": "Fanipol",
+  "Country": "United States",
+  "EmailValue": "sdad4616@gmail.com",
+  "FirstName": "Alexander",
+  "LastName": "Senkevich",
+  "MobilePhone": "+375292727402",
+  "Password": "Qwerty1",
+  "PostCode": "22275",
+  "State": "New York"
+}

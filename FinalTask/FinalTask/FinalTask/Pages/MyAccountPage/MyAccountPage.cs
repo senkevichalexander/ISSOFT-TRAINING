@@ -19,16 +19,16 @@ namespace FinalTask.Pages.MyAccountPage
         #region WebElements
 
         [FindsBy(How = How.CssSelector, Using = "a[title= 'My wishlists']")]
-        private IWebElement _myWishlists;
+        private readonly IWebElement _myWishlists;
 
         [FindsBy(How = How.CssSelector, Using = "div#mywishlist>div>table")]
-        private IList<IWebElement> _wishlistTable;
+        private readonly IList<IWebElement> _wishlistTable;
 
         [FindsBy(How = How.CssSelector, Using = "a.icon")]
-        private IWebElement _iconForDeleteWishlists;
+        private readonly IWebElement _iconForDeleteWishlists;
 
         [FindsBy(How = How.CssSelector, Using = "div#best-sellers_block_right a.product-name")]
-        private IList<IWebElement> _productsNameTopSellers;
+        private readonly IList<IWebElement> _productsNameTopSellers;
 
         #endregion
 
@@ -39,23 +39,17 @@ namespace FinalTask.Pages.MyAccountPage
             _myWishlists.Click();
         }
 
-        public bool IsWishlistsHasTables()
-        {
-            return _wishlistTable.Any();
-        }
-
         public void ClearTheWishlists()
         {
-            if (IsWishlistsHasTables() == true)
+            if (_wishlistTable.Any())
             {
-                foreach (var item in _wishlistTable)
+                for (int i = 0; i < _wishlistTable.Count; i++)
                 {
                     _iconForDeleteWishlists.Click();
                     ChooseOKConditionOfAlertBoxButton();
                 }
             }
-        } 
-
+        }
 
         private void ChooseOKConditionOfAlertBoxButton()
         {
@@ -64,19 +58,8 @@ namespace FinalTask.Pages.MyAccountPage
             GetMainPageAfterAlertPromptClosed();
         }
 
-        private IAlert GetAlertPrompt()
-        {
-            return Browser.Driver.SwitchTo().Alert();
-        }
+        private IAlert GetAlertPrompt() => Browser.Driver.SwitchTo().Alert();
 
-        private IWebDriver GetMainPageAfterAlertPromptClosed()
-        {
-            return Browser.Driver.SwitchTo().DefaultContent();
-        }
-
-        public void ClickFirstTopSellersProduct()
-        {
-            _productsNameTopSellers[0].Click();
-        }
+        private IWebDriver GetMainPageAfterAlertPromptClosed() => Browser.Driver.SwitchTo().DefaultContent();
     }
 }

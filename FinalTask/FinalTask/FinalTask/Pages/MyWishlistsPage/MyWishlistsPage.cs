@@ -18,19 +18,19 @@ namespace FinalTask.Pages.MyWishlistsPage
         #region WebElements
 
         [FindsBy(How = How.CssSelector, Using = "tr[id^='wishlist_'] td:nth-child(1) a")]
-        private IWebElement _wishlistTableName;
+        private readonly IWebElement _wishlistTableName;
 
         [FindsBy(How = How.CssSelector, Using = "#s_title")]
-        private IWebElement _productName;
+        private readonly IWebElement _productName;
 
         [FindsBy(How = How.CssSelector, Using = ".inputTxt")]
-        private IWebElement _wishlistNameInput;
+        private readonly IWebElement _wishlistNameInput;
 
         [FindsBy(How = How.CssSelector, Using = "#submitWishlist")]
-        private IWebElement _saveButton;
+        private readonly IWebElement _saveButton;
 
         [FindsBy(How = How.CssSelector, Using = "div#best-sellers_block_right a.product-name")]
-        private IList<IWebElement> _productsNameTopSellers;
+        private readonly IList<IWebElement> _productsNameTopSellers;
 
         #endregion
 
@@ -41,6 +41,7 @@ namespace FinalTask.Pages.MyWishlistsPage
 
         public List<string> GetProductPropertiesToList()
         {
+            WaitForElement(_productName);
             var text = _productName.Text.Replace("\r\n", ", ");
 
             return text.Split(", ").ToList();

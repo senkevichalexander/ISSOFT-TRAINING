@@ -1,4 +1,5 @@
 ﻿using FinalTask.Framework;
+using FinalTask.TestData;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 
@@ -11,28 +12,31 @@ namespace FinalTask.Pages.LoginPage
 
         }
 
-        private const string _loginPage = "http://automationpractice.com/index.php?controller=authentication&back=my-account";
+        private const string _loginPage 
+            = "http://automationpractice.com/index.php?controller=authentication&back=my-account";
         private readonly string title = "Login - My Store";
-        private readonly string emailValue = "sdad4616@gmail.com";
-        private readonly string password = "Qwerty1";
+        private readonly User _user = UserRepository.GetLoginUser();
 
 
         #region WebElements
 
         [FindsBy(How = How.CssSelector, Using = "#email_create")]
-        private IWebElement _registerInputField;
+        private readonly IWebElement _registerInputField;
 
         [FindsBy(How = How.CssSelector, Using = "button#SubmitCreate")]
-        private IWebElement _createAnAccountButton;
+        private readonly IWebElement _createAnAccountButton;
 
         [FindsBy(How = How.CssSelector, Using = "#login_form #email")]
-        private IWebElement _emailField;
+        private readonly IWebElement _emailField;
 
         [FindsBy(How = How.CssSelector, Using = "#passwd")]
-        private IWebElement _passwordField;
+        private readonly IWebElement _passwordField;
 
         [FindsBy(How = How.CssSelector, Using = "#SubmitLogin")]
-        private IWebElement _signInButton;
+        private readonly IWebElement _signInButton;
+
+        [FindsBy(How = How.CssSelector, Using = "#create_account_error")]
+        private readonly IWebElement _createAccountErrorMessage;
 
         #endregion
 
@@ -41,35 +45,37 @@ namespace FinalTask.Pages.LoginPage
             Browser.Driver.Navigate().GoToUrl(_loginPage);
         }
 
-        public bool IsOpened
-        {
-            get { return Browser.Driver.Title.Equals(title); }
-        }
+        public bool IsOpened => Browser.Driver.Title.Equals(title);
 
-        public void InputEmailToCreateAccount()
+        public void InputEmailToCreateAccount(string email)
         {
             WaitUntilElementExists(_registerInputField);
-            _registerInputField.SendKeys(emailValue);
+            _registerInputField.SendKeys(email);
         }
+
         public void ClickCreateAnAccountButton()
         {
             _createAnAccountButton.Click();
         }
 
-        public void CreateAnAccount()
+        public User CreateAnAccount()
         {
-            InputEmailToCreateAccount();
+            var user = UserRepository.GetNewUserForRegister();
+
+            InputEmailToCreateAccount(user.EmailValue);
             ClickCreateAnAccountButton();
+
+            return user;
         }
 
         public void InputEmailForSignIn()
         {
-            _emailField.SendKeys(emailValue);
+            _emailField.SendKeys(_user.EmailValue);
         }
 
         public void InputPasswordForSignIn()
         {
-            _passwordField.SendKeys(password);
+            _passwordField.SendKeys(_user.Password);
         }
 
         public void ClickSignInButton()

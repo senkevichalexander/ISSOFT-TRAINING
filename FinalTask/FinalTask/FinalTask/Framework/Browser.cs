@@ -10,8 +10,10 @@ namespace FinalTask.Framework
     public static class Browser
     {
         private static IWebDriver WebDriver { get; set; }
-        public static string BrowserName => ((RemoteWebDriver)WebDriver).Capabilities.GetCapability("browserName").ToString();
-        public static string BrowserVersion => ((RemoteWebDriver)WebDriver).Capabilities.GetCapability("browserVersion").ToString();
+        public static string BrowserName => ((RemoteWebDriver)WebDriver)
+            .Capabilities.GetCapability("browserName").ToString();
+        public static string BrowserVersion => ((RemoteWebDriver)WebDriver)
+            .Capabilities.GetCapability("browserVersion").ToString();
 
         public static void Initializes(bool maximized = true)
         {
@@ -24,18 +26,7 @@ namespace FinalTask.Framework
             }
         }
 
-        public static IWebDriver Driver
-        {
-            get
-            {
-                return WebDriver;
-            }
-        }
-
-        public static void GoToPage(PageBase page)
-        {
-            WebDriver.Navigate().GoToUrl(page.PageUrl);
-        }
+        public static IWebDriver Driver => WebDriver;
 
         public static void ReturnToPreviousPage()
         {
@@ -47,47 +38,46 @@ namespace FinalTask.Framework
             WebDriver.Quit();
         }
 
-        public static void PrintScreen(string fileName, ScreenshotImage‌​Format ScreenshotImage‌​Format, string path = null)
+        public static void PrintScreen(string fileName, 
+            ScreenshotImage‌​Format ScreenshotImage‌​Format, string path = null)
         {
             if (WebDriver == null)
                 return;
 
             if (string.IsNullOrEmpty(path))
                 path = Directory.GetCurrentDirectory() + @"\..\..\..\Screenshots\";
+
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
             var file = path + fileName + "." + ScreenshotImage‌​Format.ToString();
-            Screenshot ss = ((ITakesScreenshot)WebDriver).GetScreenshot();
+
+            var ss = ((ITakesScreenshot)WebDriver).GetScreenshot();
             ss.SaveAsFile(file, ScreenshotImage‌​Format);
         }
-
 
         public static void ImplicitlyWait(int seconds)
         {
             WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(seconds);
         }
 
-        public static void WaitForElementExists(IWebElement element, int seconds)
+        public static void ExplicitWait(int seconds, IWebElement element)
         {
-            WebDriverWait wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(seconds));
+            var wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(seconds));
             wait.Until((webDriver => element.Displayed && element.Enabled));
         }
 
-        public static void WaitForElementIsVisible(IWebElement element, int seconds)
+        public static void OverlayWait(int seconds)
         {
-            WebDriverWait wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(seconds));
-            wait.Until(x => element.Displayed);//ExpectedConditions.VisibilityOfAllElementsLocatedBy(element));// ;
+            var wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(seconds));
+            wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy
+                (By.CssSelector(".fancybox-overlay[style^='display: block;']")));
         }
 
-        public static void SwitchToFrame(IWebElement element)
+        public static void WaitForElementExists(IWebElement element, int seconds)
         {
-            Driver.SwitchTo().Frame(element);
-        }
-
-        public static void SwitchToDefaultContent()
-        {
-            Driver.SwitchTo().DefaultContent();
+            var wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(seconds));
+            wait.Until(webDriver => element.Displayed && element.Enabled);
         }
 
         public static string GetSelectedElementsText(IWebElement element)

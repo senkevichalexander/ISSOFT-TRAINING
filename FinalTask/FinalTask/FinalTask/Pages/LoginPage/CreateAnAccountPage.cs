@@ -1,4 +1,5 @@
 ﻿using FinalTask.Framework;
+using FinalTask.TestData;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
@@ -7,6 +8,7 @@ namespace FinalTask.Pages.LoginPage
 {
     public class CreateAnAccountPage : PageBase
     {
+        private User _user;
         public CreateAnAccountPage() : base(Browser.Driver.Url)
         {
 
@@ -15,22 +17,9 @@ namespace FinalTask.Pages.LoginPage
         private const string _createAnAccountPage = "http://automationpractice.com/index.php?controller=authentication&back=my-account#account-creation";
         private readonly string title = "Login - My Store";
 
-        private readonly string emailValue = "sdad4616@gmail.com";
-
-        private readonly string firstName = "Alexander";
-        private readonly string lastName = "Senkevich";
-        private readonly string password = "Qwerty1";
-        private readonly string adress = "Shulgi";
-        private readonly string city = "Fanipol";
-        private readonly string zipCode = "22275";
-        private readonly string mobilePhone = "+375292727402";
-        private readonly string adressAlias = "Fan";
-        private readonly string state = "New York";
-        private readonly string country = "United States";
-
         #region WebElements
 
-        [FindsBy(How = How.CssSelector, Using = "input#id_gender1")] 
+        [FindsBy(How = How.CssSelector, Using = "input#id_gender1")]
         private IWebElement _genderMaleCheckbox;
 
         [FindsBy(How = How.CssSelector, Using = "#customer_firstname")]
@@ -92,15 +81,17 @@ namespace FinalTask.Pages.LoginPage
         {
             var emailInField = _emailField.GetAttribute("value");
 
-            if(emailInField != emailValue)
+            if (emailInField != _user.EmailValue)
             {
                 _emailField.Clear();
-                _emailField.SendKeys(emailValue);
+                _emailField.SendKeys(_user.EmailValue);
             }
         }
 
-        public void RegisterWithRequiredFields()
+        public void RegisterWithRequiredFields(User user)
         {
+            _user = user;
+
             ClickOnCheckboxWithMaleTitle();
             SelectState();
             SelectCountry();
@@ -121,8 +112,7 @@ namespace FinalTask.Pages.LoginPage
 
         public void ClickOnCheckboxWithMaleTitle()
         {
-            ImplicitlyWait();
-           //WaitUntilElementExists(_genderMaleCheckbox);
+            ImplicitlyWait(5);
             _genderMaleCheckbox.Click();
         }
 
@@ -131,14 +121,14 @@ namespace FinalTask.Pages.LoginPage
         {
             var selectElement = new SelectElement(_stateDropbox);
 
-            selectElement.SelectByText(state);
+            selectElement.SelectByText(_user.State);
         }
 
         public void SelectCountry()
         {
             var selectElement = new SelectElement(_countryDropbox);
 
-            selectElement.SelectByText(country);
+            selectElement.SelectByText(_user.Country);
         }
         #endregion
 
@@ -146,51 +136,54 @@ namespace FinalTask.Pages.LoginPage
         #region Input Values 
         public void InputFirstName()
         {
-            _firstNameField.SendKeys(firstName);
+            _firstNameField.SendKeys(_user.FirstName);
         }
 
         public void InputLastName()
         {
-            _lastNameField.SendKeys(lastName);
+            _lastNameField.SendKeys(_user.LastName);
         }
 
         public void InputPassword()
         {
-            _passwordField.SendKeys(password);
+            _passwordField.SendKeys(_user.Password);
         }
 
         public void InputFirstNameInAdressSection()
         {
-            _firstNameInAdressSection.SendKeys(firstName);
+            _firstNameInAdressSection.Clear();
+            _firstNameInAdressSection.SendKeys(_user.FirstName);
         }
 
         public void InputLastNameInAdressSection()
         {
-            _lastnameInAdressSection.SendKeys(lastName);
+            _lastnameInAdressSection.Clear();
+            _lastnameInAdressSection.SendKeys(_user.LastName);
         }
 
         public void InputAdress()
         {
-            _adressField.SendKeys(adress);
+            _adressField.SendKeys(_user.Adress);
         }
 
         public void InputCityName()
         {
-            _cityField.SendKeys(city);
+            _cityField.SendKeys(_user.City);
         }
 
         public void InputPostCode()
         {
-            _postCodeField.SendKeys(zipCode);
+            _postCodeField.SendKeys(_user.PostCode);
         }
 
         public void InputMobilePhone()
         {
-            _mobilePhoneField.SendKeys(mobilePhone);
+            _mobilePhoneField.SendKeys(_user.MobilePhone);
         }
         public void InputAlias()
         {
-            _aliasField.SendKeys(adressAlias);
+            _aliasField.Clear();
+            _aliasField.SendKeys(_user.AdressAlias);
         }
         #endregion
         #endregion

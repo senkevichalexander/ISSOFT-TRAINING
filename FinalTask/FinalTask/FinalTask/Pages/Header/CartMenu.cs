@@ -14,7 +14,7 @@ namespace FinalTask.Pages.Header
         #region WebElements
 
         [FindsBy(How = How.CssSelector, Using = "a[title = 'View my shopping cart']")]
-        private IWebElement _shoppingCartName;
+        private readonly IWebElement _shoppingCartName;
 
         #endregion
 

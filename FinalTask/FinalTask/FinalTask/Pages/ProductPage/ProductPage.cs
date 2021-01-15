@@ -17,28 +17,28 @@ namespace FinalTask.Pages.ProductPage
         #region WebElements
 
         [FindsBy(How = How.CssSelector, Using = "#wishlist_button")]
-        private IWebElement _addToWishlistButton;
+        private readonly IWebElement _addToWishlistButton;
 
         [FindsBy(How = How.CssSelector, Using = ".fancybox-close")]
-        private IWebElement _overlayCloseAddToWishlist;
+        private readonly IWebElement _overlayCloseAddToWishlist;
 
         [FindsBy(How = How.CssSelector, Using = ".pb-center-column>h1")]
-        private IWebElement _productName;
+        private readonly IWebElement _productName;
 
         [FindsBy(How = How.CssSelector, Using = "#group_1")]
-        private IWebElement _sizeSelect;
+        private readonly IWebElement _sizeSelect;
 
         [FindsBy(How = How.CssSelector, Using = "#color_to_pick_list>li")]
-        private IList<IWebElement> _colors;
+        private readonly IList<IWebElement> _colors;
 
         [FindsBy(How = How.CssSelector, Using = "button.exclusive")]
-        private IWebElement _addToCardButton;
+        private readonly IWebElement _addToCardButton;
 
         [FindsBy(How = How.CssSelector, Using = ".continue")]
-        private IWebElement _continueShoppingButton;
+        private readonly IWebElement _continueShoppingButton;
 
         [FindsBy(How = How.CssSelector, Using = "#our_price_display")]
-        private IWebElement _price;
+        private readonly IWebElement _price;
 
         #endregion
 
@@ -49,9 +49,8 @@ namespace FinalTask.Pages.ProductPage
 
         public void CloseOverlayAddToWishlist()
         {
-            //var closeWishlist = By.CssSelector(".fancybox-close");
-            //Browser.WaitForElementIsVisible(closeWishlist, 15);
-            Browser.ImplicitlyWait(5);
+            WaitForOverlay();
+            ImplicitlyWait();
             _overlayCloseAddToWishlist.Click();
         }
 
@@ -67,12 +66,11 @@ namespace FinalTask.Pages.ProductPage
         
         private string GetColorText()
         {
-            foreach (var item in _colors.Where(item => item.GetAttribute("class") == "selected"))
-            {
-                return item.FindElement(By.CssSelector(":first-child")).GetAttribute("title");
-            }
+            var element = _colors.FirstOrDefault(item => item.GetAttribute("class") == "selected");
 
-            return string.Empty;
+            return element == null 
+                ? string.Empty
+                : element.FindElement(By.CssSelector(":first-child")).GetAttribute("title");
         }
 
         public List<string> GetProductPropertiesToList()
