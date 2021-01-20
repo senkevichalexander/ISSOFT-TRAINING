@@ -1,6 +1,6 @@
-﻿{  
+﻿{
   "allure": {
-    "directory": "allure-results",
+    "directory": "C:\\Windows\\System32\\config\\systemprofile\\AppData\\Local\\Jenkins\\.jenkins\\workspace\\Final Task\\FinalTask\\FinalTask\\FinalTask\\allure-results",
     "allowEmptySuites": true,
     "enableParameters": true,
     "cleanResultDirectory": true,
